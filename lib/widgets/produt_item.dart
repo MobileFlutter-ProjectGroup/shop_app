@@ -50,8 +50,8 @@ class ProdutItem extends StatelessWidget {
                 product.id.toString(),
                 product.title,
                 product.price,
+                product.image,
               );
-              print('add item');
             },
             icon: const Icon(
               Icons.add_shopping_cart,

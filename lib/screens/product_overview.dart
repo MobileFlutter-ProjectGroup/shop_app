@@ -36,7 +36,9 @@ class _ProductOverviewState extends State<ProductOverview> {
               child: ch!,
             ),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed('/cart');
+              },
               icon: const Icon(
                 Icons.shopping_cart_outlined,
                 size: 30,
