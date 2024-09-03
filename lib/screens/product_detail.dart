@@ -26,10 +26,31 @@ class ProductDetail extends StatelessWidget {
       appBar: AppBar(
         title: Text(product.title),
       ),
-      body: Center(
-        child: Text(
-          productId,
-          style: const TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 300,
+              width: double.infinity,
+              child: Image.asset(
+                product.image,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(
+              height: 10.0,
+            ),
+            SizedBox(
+              child: Container(
+                margin: const EdgeInsets.all(10.0),
+                child: Text(
+                  product.description,
+                  textAlign: TextAlign.start,
+                  softWrap: true,
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );
