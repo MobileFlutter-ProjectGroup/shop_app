@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '/provider/cart.dart';
-// import 'package:provider/provider.dart';
-// import '../provider/products.dart';
+import '../widgets/app_drawer.dart';
+import '../provider/cart.dart';
 import '../widgets/product_grid.dart';
 import '../widgets/badge.dart';
 
@@ -28,21 +27,26 @@ class _ProductOverviewState extends State<ProductOverview> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text('Product Overview'),
         actions: [
-          Consumer<Cart>(
-            builder: (_, cart, ch) => MyBadge(
-              value: cart.itemCount().toString(),
-              color: Colors.white,
-              textColor: Colors.red,
-              child: ch!,
-            ),
-            child: IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed('/cart');
-              },
-              icon: const Icon(
-                Icons.shopping_cart_outlined,
-                size: 30,
-                color: Colors.amber,
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed('/cart');
+            },
+            child: Consumer<Cart>(
+              builder: (_, cart, ch) => MyBadge(
+                value: cart.itemCount().toString(),
+                color: Colors.white,
+                textColor: Colors.red,
+                child: ch!,
+              ),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/cart');
+                },
+                icon: const Icon(
+                  Icons.shopping_cart_outlined,
+                  size: 40,
+                  color: Colors.amber,
+                ),
               ),
             ),
           ),
@@ -91,6 +95,7 @@ class _ProductOverviewState extends State<ProductOverview> {
       body: ProductGridView(
         showFavoirte: isFavorite,
       ),
+      drawer: const AppDrawer(),
     );
   }
 }

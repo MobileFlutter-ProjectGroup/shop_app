@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'cart.dart';
 
 class OrderItem {
@@ -17,7 +16,7 @@ class OrderItem {
 }
 
 class Orders with ChangeNotifier {
-  final List<OrderItem> _Itmes = [];
+  List<OrderItem> _Itmes = [];
 
   List<OrderItem> get items {
     return [..._Itmes];

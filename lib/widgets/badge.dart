@@ -30,8 +30,8 @@ class MyBadge extends StatelessWidget {
               color: color ?? Theme.of(context).colorScheme.primary,
             ),
             constraints: const BoxConstraints(
-              minWidth: 16,
-              minHeight: 16,
+              minWidth: 20,
+              minHeight: 20,
             ),
             child: Text(
               value,
