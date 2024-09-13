@@ -84,7 +84,7 @@ class ProdutItem extends StatelessWidget {
             context,
             product.id.toString(),
           ),
-          child: Image.asset(
+          child: Image.network(
             product.image,
             fit: BoxFit.cover,
           ),

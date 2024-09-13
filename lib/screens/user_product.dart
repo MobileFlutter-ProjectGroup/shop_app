@@ -14,15 +14,25 @@ class UserProduct extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
-        title: const Text('User Product'),
-        // actions: [
-        //   IconButton(
-        //       onPressed: () {},
-        //       icon: const Icon(
-        //         Icons.add,
-        //         size: 30.0,
-        //       ))
-        // ],
+        title: const Text(
+          'User Product',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.qr_code_scanner_outlined,
+              size: 30.0,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(
+            width: 10,
+          )
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,6 +81,7 @@ class UserProduct extends StatelessWidget {
             child: ListView.builder(
               itemCount: productContainer.items.length,
               itemBuilder: (_, index) => UserProductItem(
+                id: productContainer.items[index].id,
                 title: productContainer.items[index].title,
                 imageURL: productContainer.items[index].image,
                 price: productContainer.items[index].price,
@@ -85,7 +96,7 @@ class UserProduct extends StatelessWidget {
         shape: const CircleBorder(),
         backgroundColor: Colors.purple,
         onPressed: () {
-          Navigator.of(context).pushNamed('/edit-product');
+          Navigator.of(context).pushNamed('/edit-product', arguments: '');
         },
         child: const Icon(
           Icons.add,

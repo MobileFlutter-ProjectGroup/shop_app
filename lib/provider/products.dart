@@ -4,7 +4,7 @@ import 'product.dart';
 
 class Products with ChangeNotifier {
   // bool _shwoFavorite = false;
-  List<Product> _items = Product.products;
+  final List<Product> _items = Product.products;
 
   List<Product> get favorites =>
       _items.where((product) => product.isFavorite).toList();
@@ -35,5 +35,33 @@ class Products with ChangeNotifier {
     return items.firstWhere(
       (p) => p.id.toString() == id,
     );
+  }
+
+  void addProduct(Product product) {
+    Product newProduct = Product(
+      id: DateTime.now().toString(),
+      image: product.image,
+      title: product.title,
+      price: product.price,
+      description: product.description,
+      quantity: product.quantity,
+      color: product.color,
+    );
+    _items.add(newProduct);
+    // _items.insert(0, newProduct);
+    notifyListeners();
+  }
+
+  void updateProduct(String id, Product newProduct) {
+    int index = _items.indexWhere((p) => p.id == id);
+    if (index >= 0) {
+      _items[index] = newProduct;
+    }
+    notifyListeners();
+  }
+
+  void deleteProduct(String id) {
+    _items.removeWhere((p) => p.id == id);
+    notifyListeners();
   }
 }

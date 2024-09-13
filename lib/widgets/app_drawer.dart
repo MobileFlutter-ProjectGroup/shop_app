@@ -48,23 +48,6 @@ class AppDrawer extends StatelessWidget {
           ),
           const Divider(),
           ListTile(
-            onTap: () {
-              Navigator.of(context).pushReplacementNamed('/cart');
-            },
-            leading: const Icon(
-              Icons.payment,
-              size: 30,
-            ),
-            title: const Text(
-              'Shopping Cart',
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          const Divider(),
-          ListTile(
             onTap: () {},
             leading: const Icon(
               Icons.favorite_border,
