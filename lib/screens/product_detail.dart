@@ -32,7 +32,7 @@ class ProductDetail extends StatelessWidget {
             SizedBox(
               height: 300,
               width: double.infinity,
-              child: Image.asset(
+              child: Image.network(
                 product.image,
                 fit: BoxFit.cover,
               ),

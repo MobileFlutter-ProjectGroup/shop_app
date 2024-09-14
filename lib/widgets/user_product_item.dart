@@ -28,7 +28,28 @@ class UserProductItem extends StatelessWidget {
     }
 
     void onDismissedDelete() {
-      Provider.of<Products>(context, listen: false).deleteProduct(id);
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Delete Product'),
+            content: const Text('Are you sure want to delete!'),
+            actions: [
+              ElevatedButton(
+                  onPressed: () {
+                    Provider.of<Products>(context, listen: false)
+                        .deleteProduct(id);
+                  },
+                  child: const Text('Delete')),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancel')),
+            ],
+          );
+        },
+      );
     }
 
     return Slidable(

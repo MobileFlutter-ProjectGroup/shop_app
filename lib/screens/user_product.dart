@@ -8,6 +8,10 @@ import '../provider/products.dart';
 class UserProduct extends StatelessWidget {
   const UserProduct({super.key});
 
+  Future<void> _refreshHandaler(BuildContext context) async {
+    await Provider.of<Products>(context, listen: false).fetchAndAddProduct();
+  }
+
   @override
   Widget build(BuildContext context) {
     final productContainer = Provider.of<Products>(context);
@@ -78,13 +82,16 @@ class UserProduct extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: productContainer.items.length,
-              itemBuilder: (_, index) => UserProductItem(
-                id: productContainer.items[index].id,
-                title: productContainer.items[index].title,
-                imageURL: productContainer.items[index].image,
-                price: productContainer.items[index].price,
+            child: RefreshIndicator(
+              onRefresh: () => _refreshHandaler(context),
+              child: ListView.builder(
+                itemCount: productContainer.items.length,
+                itemBuilder: (_, index) => UserProductItem(
+                  id: productContainer.items[index].id,
+                  title: productContainer.items[index].title,
+                  imageURL: productContainer.items[index].image,
+                  price: productContainer.items[index].price,
+                ),
               ),
             ),
           ),
