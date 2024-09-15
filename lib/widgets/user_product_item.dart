@@ -27,25 +27,51 @@ class UserProductItem extends StatelessWidget {
       );
     }
 
+    void showSnackBar(String error) {
+      var snackBar = SnackBar(content: Text(error));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+
     void onDismissedDelete() {
       showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: const Text('Delete Product'),
-            content: const Text('Are you sure want to delete!'),
+            content: const Text('Are you sure want to delete product!'),
             actions: [
               ElevatedButton(
-                  onPressed: () {
-                    Provider.of<Products>(context, listen: false)
-                        .deleteProduct(id);
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                  ),
+                  onPressed: () async {
+                    try {
+                      await Provider.of<Products>(context, listen: false)
+                          .deleteProduct(id);
+                      showSnackBar('Deleted Product');
+                    } catch (e) {
+                      showSnackBar('Deleted failed!');
+                    }
                   },
-                  child: const Text('Delete')),
+                  child: const Text(
+                    'Delete',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  )),
               ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                  ),
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text('Cancel')),
+                  child: const Text(
+                    'Cancel',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  )),
             ],
           );
         },

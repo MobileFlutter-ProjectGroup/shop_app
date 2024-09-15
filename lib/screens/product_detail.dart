@@ -24,7 +24,7 @@ class ProductDetail extends StatelessWidget {
         .findProductById(productId);
     return Scaffold(
       appBar: AppBar(
-        title: Text(product.title),
+        title: Text(product.id),
       ),
       body: SingleChildScrollView(
         child: Column(

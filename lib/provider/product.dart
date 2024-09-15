@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Product with ChangeNotifier {
   final String image;
@@ -23,9 +27,28 @@ class Product with ChangeNotifier {
     required this.color,
     this.isFavorite = false,
   });
-  void toggleFavorite() {
-    isFavorite = !isFavorite;
+  void _setFavorite(bool favorite) {
+    isFavorite = favorite;
     notifyListeners();
+  }
+
+  Future<void> toggleFavorite() async {
+    final oldFavorite = isFavorite;
+    final url =
+        'https://fluttershopapp-b71a9-default-rtdb.asia-southeast1.firebasedatabase.app/products/$id.json';
+    _setFavorite(!isFavorite);
+    final response = await http.patch(
+      Uri.parse(url),
+      body: json.encode({
+        'isFavorite': isFavorite,
+      }),
+    );
+    if (response.statusCode >= 400) {
+      isFavorite = oldFavorite;
+      _setFavorite(oldFavorite);
+      throw HttpException(
+          'http request failed with status code ${response.statusCode}');
+    }
   }
 
   static List<Product> products = [

@@ -58,6 +58,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
     setState(() {
       isLoading = false;
     });
+    navigatePopScreen();
+  }
+
+  void navigatePopScreen() {
     Navigator.pop(context);
   }
 

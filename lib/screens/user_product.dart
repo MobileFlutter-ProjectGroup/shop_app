@@ -59,13 +59,13 @@ class UserProduct extends StatelessWidget {
                   height: 5.0,
                 ),
                 Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                  // margin: const EdgeInsets.symmetric(horizontal: 10.0),
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     color: Colors.white,
                   ),
-                  height: 60,
+                  height: 55,
                   width: double.infinity,
                   child: const TextField(
                     decoration: InputDecoration(

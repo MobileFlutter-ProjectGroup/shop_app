@@ -28,11 +28,7 @@ class ProductGridView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       itemBuilder: (ctx, index) => ChangeNotifierProvider.value(
         value: products[index],
-        child: const ProdutItem(
-            // image: products[index].image,
-            // productTitle: products[index].title,
-            // id: products[index].id.toString(),
-            ),
+        child: const ProdutItem(),
       ),
     );
   }

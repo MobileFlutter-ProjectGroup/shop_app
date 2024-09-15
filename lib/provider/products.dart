@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../models/custom_http_exception.dart';
 import 'product.dart';
 
 class Products with ChangeNotifier {
@@ -57,6 +58,7 @@ class Products with ChangeNotifier {
             description: prod['description'],
             quantity: 1,
             color: Colors.transparent,
+            isFavorite: prod['isFavorite'],
           ),
         );
       },
@@ -119,17 +121,19 @@ class Products with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> deleteProduct(String id) {
+  Future<void> deleteProduct(String id) async {
     final exitProduct = findProductById(id);
     int exitIndex = _items.indexWhere((p) => p.id == id);
     final url =
         'https://fluttershopapp-b71a9-default-rtdb.asia-southeast1.firebasedatabase.app/products/$id.json';
-    return http.delete(Uri.parse(url)).then((_) {
-      _items.removeWhere((p) => p.id == id);
-      notifyListeners();
-    }).catchError((error) {
+    final response = await http.delete(Uri.parse(url));
+    _items.removeWhere((p) => p.id == id);
+    notifyListeners();
+    if (response.statusCode >= 400) {
       _items.insert(exitIndex, exitProduct);
       notifyListeners();
-    });
+      throw CustomHttpException(
+          'Http request failed with status code ${response.statusCode}');
+    } else {}
   }
 }

@@ -5,7 +5,6 @@ import '../provider/product.dart';
 
 class ProdutItem extends StatelessWidget {
   static const String routeName = '/product-detail';
-
   // final String id;
   // final String image;
   // final String productTitle;
@@ -27,6 +26,14 @@ class ProdutItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final Product product = Provider.of<Product>(context, listen: false);
     final Cart cart = Provider.of<Cart>(context, listen: false);
+    void showSnackBar(String error) {
+      var snackBar = SnackBar(
+        content: Text(error),
+        duration: const Duration(milliseconds: 30),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(15.0),
       child: GridTile(
@@ -34,7 +41,16 @@ class ProdutItem extends StatelessWidget {
           backgroundColor: Colors.black54,
           leading: Consumer<Product>(
             builder: (ctx, product, _) => IconButton(
-              onPressed: product.toggleFavorite,
+              onPressed: () async {
+                try {
+                  await product.toggleFavorite();
+                  showSnackBar(product.isFavorite
+                      ? 'Add Favorite List!'
+                      : 'Remove Favorite List!');
+                } catch (e) {
+                  showSnackBar('favorite setting is failed!');
+                }
+              },
               icon: Icon(
                 product.isFavorite
                     ? Icons.favorite
@@ -47,7 +63,7 @@ class ProdutItem extends StatelessWidget {
           trailing: IconButton(
             onPressed: () {
               cart.addItem(
-                product.id.toString(),
+                product.id,
                 product.title,
                 product.price,
                 product.image,
@@ -82,7 +98,7 @@ class ProdutItem extends StatelessWidget {
         child: GestureDetector(
           onTap: () => navigateProductDetail(
             context,
-            product.id.toString(),
+            product.id,
           ),
           child: Image.network(
             product.image,

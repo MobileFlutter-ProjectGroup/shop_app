@@ -51,7 +51,12 @@ class _ProductOverviewState extends State<ProductOverview> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        title: const Text('Product Overview'),
+        title: const Text(
+          'Product Overview',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
         actions: [
           GestureDetector(
             onTap: () {
@@ -80,7 +85,7 @@ class _ProductOverviewState extends State<ProductOverview> {
             icon: const Icon(
               Icons.more_vert,
               size: 30,
-              color: Colors.black,
+              color: Colors.white,
             ),
             onSelected: (value) {
               setState(() {
