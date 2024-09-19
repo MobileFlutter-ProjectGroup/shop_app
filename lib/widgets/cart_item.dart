@@ -78,8 +78,13 @@ class CartItem extends StatelessWidget {
       child: Card(
         elevation: 1,
         child: ListTile(
-          leading: CircleAvatar(
-            backgroundImage: AssetImage(image),
+          leading: Container(
+            height: 50,
+            width: 50,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+            child: Center(
+              child: Image.network(image),
+            ),
           ),
           title: Text(title),
           subtitle: Text('\$$price'),
