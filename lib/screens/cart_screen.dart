@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../provider/cart.dart' show Cart;
 import '../provider/orders.dart';
 import '../widgets/cart_item.dart' /*as ci*/;
+import '../widgets/check_out.dart';
 
 class CartScreen extends StatefulWidget {
   // static String routeName = 'cart';
@@ -26,83 +27,86 @@ class _CartScreenState extends State<CartScreen> {
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Card(
-                    elevation: 2,
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 10.0,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Total:',
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          const SizedBox(
-                            width: 5.0,
-                          ),
-                          Chip(
-                            label: Text(
-                              '\$${cart.totalAmount}',
-                              style: Theme.of(context).textTheme.bodyMedium,
+          : SafeArea(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Card(
+                      elevation: 2,
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Total:',
+                              style: Theme.of(context).textTheme.titleLarge,
                             ),
-                            backgroundColor:
-                                Theme.of(context).colorScheme.inversePrimary,
-                          ),
-                          const Spacer(),
-                          TextButton(
-                              style: TextButton.styleFrom(
-                                  backgroundColor: Colors.deepPurple[200]),
-                              onPressed: cart.totalAmount <= 0.0
-                                  ? null
-                                  : () async {
-                                      setState(() {
-                                        _isLoading = true;
-                                      });
-                                      await Provider.of<Orders>(context,
-                                              listen: false)
-                                          .addOrder(
-                                        cartItems,
-                                        cart.totalAmount,
-                                        '10001',
-                                      );
+                            const SizedBox(
+                              width: 5.0,
+                            ),
+                            Chip(
+                              label: Text(
+                                '\$${cart.totalAmount}',
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.inversePrimary,
+                            ),
+                            const Spacer(),
+                            TextButton(
+                                style: TextButton.styleFrom(
+                                    backgroundColor: Colors.deepPurple[200]),
+                                onPressed: cart.totalAmount <= 0.0
+                                    ? null
+                                    : () async {
+                                        setState(() {
+                                          _isLoading = true;
+                                        });
+                                        await Provider.of<Orders>(context,
+                                                listen: false)
+                                            .addOrder(
+                                          cartItems,
+                                          cart.totalAmount,
+                                          '10001',
+                                        );
 
-                                      cart.clearCart();
-                                      setState(() {
-                                        _isLoading = false;
-                                      });
-                                    },
-                              child: const Text(
-                                'Order Now',
-                                style: TextStyle(
-                                    fontSize: 20.0, color: Colors.white),
-                              ))
-                        ],
+                                        cart.clearCart();
+                                        setState(() {
+                                          _isLoading = false;
+                                        });
+                                      },
+                                child: const Text(
+                                  'Order Now',
+                                  style: TextStyle(
+                                      fontSize: 20.0, color: Colors.white),
+                                ))
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: cartItems.length,
-                    itemBuilder: (ctx, index) => CartItem(
-                      id: cartItems[index].id,
-                      title: cartItems[index].title,
-                      quantity: cartItems[index].quantity,
-                      price: cartItems[index].price,
-                      image: cartItems[index].image,
-                      productId: cart.items.keys.toList()[index],
-                    ), // ci.CartItem(id: ,),
-                  ),
-                )
-              ],
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: cartItems.length,
+                      itemBuilder: (ctx, index) => CartItem(
+                        id: cartItems[index].id,
+                        title: cartItems[index].title,
+                        quantity: cartItems[index].quantity,
+                        price: cartItems[index].price,
+                        image: cartItems[index].image,
+                        productId: cart.items.keys.toList()[index],
+                      ), // ci.CartItem(id: ,),
+                    ),
+                  )
+                ],
+              ),
             ),
+      bottomSheet: const CheckOutBox(),
     );
   }
 }

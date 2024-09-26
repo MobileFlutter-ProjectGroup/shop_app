@@ -4,8 +4,10 @@ import 'package:provider/provider.dart';
 import '../screens/cart_screen.dart';
 import '../screens/order_screen.dart';
 import '../screens/user_product.dart';
+import 'provider/auth.dart';
 import 'provider/cart.dart';
 import 'provider/orders.dart';
+import 'screens/auth_screen.dart';
 import 'screens/edit_product_screen.dart';
 import 'screens/product_overview.dart ';
 import 'screens/product_detail.dart';
@@ -33,6 +35,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<Orders>(
           create: (context) => Orders(),
         ),
+        ChangeNotifierProvider<Auth>(
+          create: (context) => Auth(),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -41,9 +46,11 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const ProductOverview(),
+        home: const AuthScreen(),
         routes: {
           // '/': (context) => const ProductOverview(),
+          '/auth': (context) => const AuthScreen(),
+          '/product-view': (context) => const ProductOverview(),
           '/product-detail': (context) => const ProductDetail(),
           '/cart': (context) => const CartScreen(),
           '/order': (context) => const OrderScreen(),
