@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:js_interop';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +25,25 @@ class _AuthCardState extends State<AuthCard> {
   };
   var _isLoading = false;
   final _passwordController = TextEditingController();
+  void _showErrorDialog(String errorMsg) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        icon: const Icon(Icons.error),
+        iconColor: Colors.red,
+        title: const Text('Authentation Error'),
+        content: Text(errorMsg),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
 
   void _submit() async {
     if (!_formKey.currentState!.validate()) {
@@ -32,20 +54,49 @@ class _AuthCardState extends State<AuthCard> {
     setState(() {
       _isLoading = true;
     });
+    try {
+      if (_authMode == AuthMode.login) {
+        //Log user in
 
-    if (_authMode == AuthMode.login) {
-      //Log user in
+        await Provider.of<Auth>(context, listen: false)
+            .logIn(_authData['email']!, _authData['password']!);
+        // scaffoldMessage('SigIn Successfully');
+      } else {
+        //Sig user up
 
-      await Provider.of<Auth>(context, listen: false)
-          .logIn(_authData['email']!, _authData['password']!);
-      // scaffoldMessage('SigIn Successfully');
-    } else {
-      //Sig user up
-
-      await Provider.of<Auth>(context, listen: false)
-          .signup(_authData['email']!, _authData['password']!);
-      // scaffoldMessage('SignUp Successfully');
+        await Provider.of<Auth>(context, listen: false)
+            .signup(_authData['email']!, _authData['password']!);
+        // scaffoldMessage('SignUp Successfully');
+      }
+    } on HttpException catch (error) {
+      var errorMsg = 'Authentication Fail!';
+      final message = error.message;
+      if (message.contains('EMAIL_EXITS')) {
+        errorMsg = 'The email address is already in use by another account.';
+      } else if (message.contains('OPERATION_NOT_ALLOWED')) {
+        errorMsg = 'Password sign-in is disabled for this app.';
+      } else if (message.contains('TOO_MANY_ATTEMPTS_TRY_LATER')) {
+        errorMsg =
+            'We have blocked all requests from this device due to unusual activity. Try again later.';
+      } else if (message.contains('EMAIL_NOT_FOUND')) {
+        errorMsg =
+            'There is no user record corresponding to this identifier. The user may have been deleted.';
+      } else if (message.contains('INVALID_PASSWORD')) {
+        errorMsg =
+            'The password is invalid or the user does not have a password.';
+      } else if (message.contains('USER_DISABLED')) {
+        errorMsg = 'The user account has been disabled by an administrator.';
+      } else if (message.contains('OPERATION_NOT_ALLOWED')) {
+        errorMsg = 'Anonymous user sign-in is disabled for this app.';
+      } else {
+        errorMsg = 'Something worng in authentitation';
+      }
+      _showErrorDialog(errorMsg);
+    } catch (error) {
+      var errorMsg = 'can\'t authenticate.Place try again.';
+      _showErrorDialog(errorMsg);
     }
+
     setState(() {
       _isLoading = false;
     });

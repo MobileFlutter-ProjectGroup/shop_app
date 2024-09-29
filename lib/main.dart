@@ -39,24 +39,23 @@ class MyApp extends StatelessWidget {
           create: (context) => Auth(),
         )
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Online Shop',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
+      child: Consumer<Auth>(
+        builder: (ctx, auth, _) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Online Shop App',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+          ),
+          home: auth.isAuth ? const ProductOverview() : const AuthScreen(),
+          routes: {
+            '/product-detail': (context) => const ProductDetail(),
+            '/cart': (context) => const CartScreen(),
+            '/order': (context) => const OrderScreen(),
+            '/user-product': (context) => const UserProduct(),
+            '/edit-product': (context) => const EditProductScreen(),
+          },
         ),
-        home: const AuthScreen(),
-        routes: {
-          // '/': (context) => const ProductOverview(),
-          '/auth': (context) => const AuthScreen(),
-          '/product-view': (context) => const ProductOverview(),
-          '/product-detail': (context) => const ProductDetail(),
-          '/cart': (context) => const CartScreen(),
-          '/order': (context) => const OrderScreen(),
-          '/user-product': (context) => const UserProduct(),
-          '/edit-product': (context) => const EditProductScreen(),
-        },
       ),
     );
   }
