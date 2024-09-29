@@ -6,12 +6,27 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: const Color(0xffF2F2F2),
       child: Column(
         children: [
-          AppBar(
-            backgroundColor: Colors.deepPurple,
-            title: const Text('My Shop'),
-            automaticallyImplyLeading: false,
+          const DrawerHeader(
+            child: Column(
+              children: [
+                CircleAvatar(
+                  backgroundColor: Colors.amber,
+                  radius: 30,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'My Shop',
+                  style: TextStyle(
+                    color: Colors.deepOrange,
+                  ),
+                ),
+              ],
+            ),
           ),
           ListTile(
             onTap: () {

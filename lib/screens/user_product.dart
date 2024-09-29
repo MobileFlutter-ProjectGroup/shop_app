@@ -9,12 +9,13 @@ class UserProduct extends StatelessWidget {
   const UserProduct({super.key});
 
   Future<void> _refreshHandaler(BuildContext context) async {
-    await Provider.of<Products>(context, listen: false).fetchAndAddProduct();
+    await Provider.of<Products>(context, listen: false)
+        .fetchAndAddProduct(true);
   }
 
   @override
   Widget build(BuildContext context) {
-    final productContainer = Provider.of<Products>(context);
+    //final productContainer = Provider.of<Products>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
@@ -47,14 +48,14 @@ class UserProduct extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Products (${productContainer.items.length})',
-                  style: const TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
+                // Text(
+                //   'Products (${productContainer.items.length})',
+                //   style: const TextStyle(
+                //     fontSize: 18.0,
+                //     fontWeight: FontWeight.bold,
+                //     color: Colors.black,
+                //   ),
+                // ),
                 const SizedBox(
                   height: 5.0,
                 ),
@@ -82,17 +83,33 @@ class UserProduct extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: RefreshIndicator(
-              onRefresh: () => _refreshHandaler(context),
-              child: ListView.builder(
-                itemCount: productContainer.items.length,
-                itemBuilder: (_, index) => UserProductItem(
-                  id: productContainer.items[index].id,
-                  title: productContainer.items[index].title,
-                  imageURL: productContainer.items[index].image,
-                  price: productContainer.items[index].price,
-                ),
-              ),
+            child: FutureBuilder(
+              future: _refreshHandaler(context),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  return RefreshIndicator(
+                    onRefresh: () => _refreshHandaler(context),
+                    child: Consumer<Products>(
+                      builder: (ctx, productContainer, __) => Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListView.builder(
+                          itemCount: productContainer.items.length,
+                          itemBuilder: (_, index) => UserProductItem(
+                            id: productContainer.items[index].id,
+                            title: productContainer.items[index].title,
+                            imageURL: productContainer.items[index].image,
+                            price: productContainer.items[index].price,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }
+              },
             ),
           ),
         ],

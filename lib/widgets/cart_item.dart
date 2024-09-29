@@ -76,19 +76,67 @@ class CartItem extends StatelessWidget {
         Provider.of<Cart>(context, listen: false).removeItem(productId);
       },
       child: Card(
+        color: const Color(0xffc6caeb),
         elevation: 1,
         child: ListTile(
           leading: Container(
-            height: 50,
+            height: 100,
             width: 50,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
             child: Center(
               child: Image.network(image),
             ),
           ),
-          title: Text(title),
-          subtitle: Text('\$$price'),
-          trailing: Text('$quantity pcs'),
+          title: Text(
+            title,
+            style: const TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          subtitle: Row(
+            children: [
+              TextButton(
+                  style: TextButton.styleFrom(
+                      backgroundColor: const Color(0xffafa5cf)),
+                  onPressed: () {},
+                  child: const Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  )),
+              const SizedBox(
+                width: 10,
+              ),
+              Chip(
+                label: Text('$quantity'),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: const Color(0xffafa5cf),
+                  ),
+                  onPressed: () {},
+                  child: const Icon(
+                    Icons.remove,
+                    color: Colors.white,
+                  ))
+            ],
+          ),
+          trailing: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              const Text(
+                'Price',
+                style: TextStyle(fontSize: 14),
+              ),
+              Text(
+                '\$$price',
+                style: const TextStyle(fontSize: 14),
+              ),
+            ],
+          ),
         ),
       ),
     );

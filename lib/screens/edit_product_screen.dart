@@ -179,6 +179,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           description: editProduct.description,
                           quantity: editProduct.quantity,
                           color: editProduct.color,
+                          // creatorId: userId,
                           isFavorite: editProduct.isFavorite,
                         );
                       },
@@ -210,6 +211,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           price: double.parse(value!),
                           description: editProduct.description,
                           quantity: editProduct.quantity,
+                          // creatorId: userId,
                           color: editProduct.color,
                           isFavorite: editProduct.isFavorite,
                         );
@@ -246,6 +248,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           description: value,
                           quantity: editProduct.quantity,
                           color: editProduct.color,
+                          // creatorId: userId,
                           isFavorite: editProduct.isFavorite,
                         );
                       },
@@ -309,6 +312,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                 description: editProduct.description,
                                 quantity: editProduct.quantity,
                                 color: editProduct.color,
+                                // creatorId: userId,
                                 isFavorite: editProduct.isFavorite,
                               );
                             },

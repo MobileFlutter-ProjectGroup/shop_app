@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/cart.dart';
 import '../provider/product.dart';
+import '../provider/auth.dart';
 
 class ProdutItem extends StatelessWidget {
   static const String routeName = '/product-detail';
@@ -26,6 +27,8 @@ class ProdutItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final Product product = Provider.of<Product>(context, listen: false);
     final Cart cart = Provider.of<Cart>(context, listen: false);
+    final Auth auth = Provider.of<Auth>(context, listen: false);
+
     void showSnackBar(String error) {
       var snackBar = SnackBar(
         content: Text(error),
@@ -43,7 +46,7 @@ class ProdutItem extends StatelessWidget {
             builder: (ctx, product, _) => IconButton(
               onPressed: () async {
                 try {
-                  await product.toggleFavorite();
+                  await product.toggleFavorite(auth.token!, auth.userId!);
                   showSnackBar(product.isFavorite
                       ? 'Add Favorite List!'
                       : 'Remove Favorite List!');

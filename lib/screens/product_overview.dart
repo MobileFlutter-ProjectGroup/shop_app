@@ -49,8 +49,10 @@ class _ProductOverviewState extends State<ProductOverview> {
   Widget build(BuildContext context) {
     // final Products productContainer = Provider.of<Products>(context);
     return Scaffold(
+      backgroundColor: const Color(0xFFf2f2f2),
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor:
+            const Color(0xff2299B4), //Theme.of(context).colorScheme.primary,
         title: const Text(
           'Product Overview',
           style: TextStyle(
